@@ -39,7 +39,7 @@ body {
 .segment {
   position: absolute;
   background-color: #00f0ff;
-  opacity: 0.08;
+  opacity: 0.03;
   transition: opacity 0.3s;
   border-radius: 3px;
 }

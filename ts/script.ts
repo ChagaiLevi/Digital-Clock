@@ -12,6 +12,7 @@ let hours: objectsType[] = [objects('hours0'), objects('hours1')];
 let minutes: objectsType[] = [objects('minutes0'), objects('minutes1')];
 let seconds: objectsType[] = [objects('seconds0'), objects('seconds1')];
 
+mainFunction();
 setInterval(() => mainFunction(), 1000);
 
 function objects(name: string): any {

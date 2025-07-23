@@ -1,71 +1,62 @@
-import Dot from "./Components/Dot"
+import { useState, useEffect } from "react";
+import Dot from "./Components/Dot";
+import Digit from "./Components/Digit";
+
+type NumberProps = {
+  firstHours: number | null;
+  secondHours: number | null;
+  firstMinutes: number | null;
+  secondMinutes: number | null;
+  firstSeconds: number | null;
+  secondSeconds: number | null;
+};
 
 function App() {
+  const [numbersTimes, setNumbersTimes] = useState<NumberProps>({
+    firstHours: null,
+    secondHours: null,
+    firstMinutes: null,
+    secondMinutes: null,
+    firstSeconds: null,
+    secondSeconds: null,
+  });
+
+  useEffect(() => {
+    const mainFunction = () => {
+      const date = new Date();
+      const hoursNumber = date.getHours();
+      const minutesNumber = date.getMinutes();
+      const secondsNumber = date.getSeconds();
+
+      setNumbersTimes({
+        firstHours: hoursNumber < 10 ? 0 : Math.floor(hoursNumber / 10),
+        secondHours: hoursNumber < 10 ? hoursNumber : hoursNumber % 10,
+        firstMinutes: minutesNumber < 10 ? 0 : Math.floor(minutesNumber / 10),
+        secondMinutes: minutesNumber < 10 ? minutesNumber : minutesNumber % 10,
+        firstSeconds: secondsNumber < 10 ? 0 : Math.floor(secondsNumber / 10),
+        secondSeconds: secondsNumber < 10 ? secondsNumber : secondsNumber % 10,
+      });
+    };
+
+    mainFunction(); // ריצה ראשונית
+    const intervalId = setInterval(mainFunction, 1000);
+
+    // ניקוי האינטרוול כשהקומפוננטה נהרסת
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div className="clock">
-      <div className="digit">
-        <div className="segment a hours0-up"></div>
-        <div className="segment b hours0-upRight"></div>
-        <div className="segment c hours0-downRight"></div>
-        <div className="segment d hours0-down"></div>
-        <div className="segment e hours0-downLeft"></div>
-        <div className="segment f hours0-upLeft"></div>
-        <div className="segment g hours0-center"></div>
-      </div>
-      <div className="digit">
-        <div className="segment a hours1-up"></div>
-        <div className="segment b hours1-upRight"></div>
-        <div className="segment c hours1-downRight"></div>
-        <div className="segment d hours1-down"></div>
-        <div className="segment e hours1-downLeft"></div>
-        <div className="segment f hours1-upLeft"></div>
-        <div className="segment g hours1-center"></div>
-      </div>
-
+      <Digit num={numbersTimes.firstHours} />
+      <Digit num={numbersTimes.secondHours} />
       <Dot />
-
-      <div className="digit">
-        <div className="segment a minutes0-up"></div>
-        <div className="segment b minutes0-upRight"></div>
-        <div className="segment c minutes0-downRight"></div>
-        <div className="segment d minutes0-down"></div>
-        <div className="segment e minutes0-downLeft"></div>
-        <div className="segment f minutes0-upLeft"></div>
-        <div className="segment g minutes0-center"></div>
-      </div>
-      <div className="digit">
-        <div className="segment a minutes1-up"></div>
-        <div className="segment b minutes1-upRight"></div>
-        <div className="segment c minutes1-downRight"></div>
-        <div className="segment d minutes1-down"></div>
-        <div className="segment e minutes1-downLeft"></div>
-        <div className="segment f minutes1-upLeft"></div>
-        <div className="segment g minutes1-center"></div>
-      </div>
-
+      <Digit num={numbersTimes.firstMinutes} />
+      <Digit num={numbersTimes.secondMinutes} />
       <Dot />
-
-      <div className="digit">
-        <div className="segment a seconds0-up"></div>
-        <div className="segment b seconds0-upRight"></div>
-        <div className="segment c seconds0-downRight"></div>
-        <div className="segment d seconds0-down"></div>
-        <div className="segment e seconds0-downLeft"></div>
-        <div className="segment f seconds0-upLeft"></div>
-        <div className="segment g seconds0-center"></div>
-      </div>
-      <div className="digit">
-        <div className="segment a seconds1-up"></div>
-        <div className="segment b seconds1-upRight"></div>
-        <div className="segment c seconds1-downRight"></div>
-        <div className="segment d seconds1-down"></div>
-        <div className="segment e seconds1-downLeft"></div>
-        <div className="segment f seconds1-upLeft"></div>
-        <div className="segment g seconds1-center"></div>
-      </div>
+      <Digit num={numbersTimes.firstSeconds} />
+      <Digit num={numbersTimes.secondSeconds} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

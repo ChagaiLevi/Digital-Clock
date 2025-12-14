@@ -3,22 +3,16 @@ import Dot from "./Components/Dot";
 import Digit from "./Components/Digit";
 
 type NumberProps = {
-  firstHours: number | null;
-  secondHours: number | null;
-  firstMinutes: number | null;
-  secondMinutes: number | null;
-  firstSeconds: number | null;
-  secondSeconds: number | null;
-};
+  hours: { first: number | null; second: number | null; };
+  minutes: { first: number | null; second: number | null; };
+  seconds: { first: number | null; second: number | null; };
+}
 
 function App() {
   const [numbersTimes, setNumbersTimes] = useState<NumberProps>({
-    firstHours: null,
-    secondHours: null,
-    firstMinutes: null,
-    secondMinutes: null,
-    firstSeconds: null,
-    secondSeconds: null,
+    hours: { first: null, second: null },
+    minutes: { first: null, second: null },
+    seconds: { first: null, second: null },
   });
 
   useEffect(() => {
@@ -29,32 +23,37 @@ function App() {
       const secondsNumber = date.getSeconds();
 
       setNumbersTimes({
-        firstHours: hoursNumber < 10 ? 0 : Math.floor(hoursNumber / 10),
-        secondHours: hoursNumber < 10 ? hoursNumber : hoursNumber % 10,
-        firstMinutes: minutesNumber < 10 ? 0 : Math.floor(minutesNumber / 10),
-        secondMinutes: minutesNumber < 10 ? minutesNumber : minutesNumber % 10,
-        firstSeconds: secondsNumber < 10 ? 0 : Math.floor(secondsNumber / 10),
-        secondSeconds: secondsNumber < 10 ? secondsNumber : secondsNumber % 10,
+        hours: {
+          first: hoursNumber < 10 ? 0 : Math.floor(hoursNumber / 10),
+          second: hoursNumber < 10 ? hoursNumber : hoursNumber % 10,
+        },
+        minutes: {
+          first: minutesNumber < 10 ? 0 : Math.floor(minutesNumber / 10),
+          second: minutesNumber < 10 ? minutesNumber : minutesNumber % 10,
+        },
+        seconds: {
+          first: secondsNumber < 10 ? 0 : Math.floor(secondsNumber / 10),
+          second: secondsNumber < 10 ? secondsNumber : secondsNumber % 10,
+        },
       });
     };
 
-    mainFunction(); // ריצה ראשונית
+    mainFunction();
     const intervalId = setInterval(mainFunction, 1000);
 
-    // ניקוי האינטרוול כשהקומפוננטה נהרסת
     return () => clearInterval(intervalId);
   }, []);
 
   return (
     <div className="clock">
-      <Digit num={numbersTimes.firstHours} />
-      <Digit num={numbersTimes.secondHours} />
+      <Digit num={numbersTimes.hours.first} />
+      <Digit num={numbersTimes.hours.second} />
       <Dot />
-      <Digit num={numbersTimes.firstMinutes} />
-      <Digit num={numbersTimes.secondMinutes} />
+      <Digit num={numbersTimes.minutes.first} />
+      <Digit num={numbersTimes.minutes.second} />
       <Dot />
-      <Digit num={numbersTimes.firstSeconds} />
-      <Digit num={numbersTimes.secondSeconds} />
+      <Digit num={numbersTimes.seconds.first} />
+      <Digit num={numbersTimes.seconds.second} />
     </div>
   );
 }

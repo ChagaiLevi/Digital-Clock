@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import type React from "react";
 
 type NumberProps = {
@@ -29,8 +30,8 @@ const Digit: React.FC<{ num: number | null }> = ({ num }) => {
     }
   };
 
-  const theFunction = () => {
-    if (num === null) return; // טיפול במקרה של null
+  const theFunction: () => void = () => {
+    if (num === null) return;
     clear();
 
     switch (num) {
@@ -106,17 +107,24 @@ const Digit: React.FC<{ num: number | null }> = ({ num }) => {
     }
   };
 
+  const element: (signalNumber: number, side: boolean) => JSX.Element = (signalNumber, side) => {
+    const signal: string = `${signalNumber === 1 ? "a" : signalNumber === 2 ? "b" : signalNumber === 3 ? "c" : signalNumber === 4 ? "d" : signalNumber === 5 ? "e" : signalNumber === 6 ? "f" : "g"}`;
+    const element: JSX.Element = <div className={`segment ${signal} ${on(side)}`}></div>;
+    return element;
+  }
+
+  element(1, numberElements.up);
   theFunction();
 
   return (
     <div className="digit">
-      <div className={`segment a ${on(numberElements.up)}`}></div>
-      <div className={`segment b ${on(numberElements.upRight)}`}></div>
-      <div className={`segment c ${on(numberElements.downRight)}`}></div>
-      <div className={`segment d ${on(numberElements.down)}`}></div>
-      <div className={`segment e ${on(numberElements.downLeft)}`}></div>
-      <div className={`segment f ${on(numberElements.upLeft)}`}></div>
-      <div className={`segment g ${on(numberElements.center)}`}></div>
+      {element(1, numberElements.up)}
+      {element(2, numberElements.upRight)}
+      {element(3, numberElements.downRight)}
+      {element(4, numberElements.down)}
+      {element(5, numberElements.downLeft)}
+      {element(6, numberElements.upLeft)}
+      {element(7, numberElements.center)}
     </div>
   );
 };

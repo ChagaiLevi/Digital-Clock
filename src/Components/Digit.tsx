@@ -11,7 +11,7 @@ type NumberProps = {
   center: boolean;
 };
 
-const Digit: React.FC<{ num: number | null }> = ({ num }) => {
+const Digit: React.FC<{ num: number | null, small?: boolean }> = ({ num, small = false }) => {
   const numberElements: NumberProps = {
     up: false,
     down: false,
@@ -22,9 +22,9 @@ const Digit: React.FC<{ num: number | null }> = ({ num }) => {
     center: false,
   };
 
-  const on = (numberElement: boolean): string => (numberElement ? "on" : "");
+  const on = (numberElement: boolean): string => (numberElement ? `${small ? 'small-' : ''}on` : "");
 
-  const clear = () => {
+  const clear: () => void = () => {
     for (const key in numberElements) {
       numberElements[key as keyof NumberProps] = false;
     }
@@ -109,15 +109,15 @@ const Digit: React.FC<{ num: number | null }> = ({ num }) => {
 
   const element: (signalNumber: number, side: boolean) => JSX.Element = (signalNumber, side) => {
     const signal: string = `${signalNumber === 1 ? "a" : signalNumber === 2 ? "b" : signalNumber === 3 ? "c" : signalNumber === 4 ? "d" : signalNumber === 5 ? "e" : signalNumber === 6 ? "f" : "g"}`;
-    const element: JSX.Element = <div className={`segment ${signal} ${on(side)}`}></div>;
+    const element: JSX.Element = <div className={`${small ? 'small-' : ''}segment ${signal} ${on(side)}`}></div>;
     return element;
   }
 
-  element(1, numberElements.up);
+  //element(1, numberElements.up);
   theFunction();
 
   return (
-    <div className="digit">
+    <div className={`${small ? 'small-' : ''}digit`}>
       {element(1, numberElements.up)}
       {element(2, numberElements.upRight)}
       {element(3, numberElements.downRight)}

@@ -315,3 +315,11 @@ body {
   box-shadow: 0 0 6px #00f0ff;
   margin: 6px 0;
 }
+
+.expansion {
+  left: -15px !important;
+}
+
+.expansion2 {
+  margin-left: 10px;
+}

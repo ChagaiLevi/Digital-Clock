@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import DigitSmall from "./Components/DigitSmall";
 import Dot from "./Components/Dot";
 import Digit from "./Components/Digit";
 
@@ -45,15 +46,20 @@ function App() {
   }, []);
 
   return (
-    <div className="clock">
-      <Digit num={numbersTimes.hours.first} />
-      <Digit num={numbersTimes.hours.second} />
-      <Dot />
-      <Digit num={numbersTimes.minutes.first} />
-      <Digit num={numbersTimes.minutes.second} />
-      <Dot />
-      <Digit num={numbersTimes.seconds.first} />
-      <Digit num={numbersTimes.seconds.second} />
+    <div id="wrapper">
+      <div className="date">
+        <DigitSmall />
+      </div>
+      <div className="clock">
+        <Digit num={numbersTimes.hours.first} />
+        <Digit num={numbersTimes.hours.second} />
+        <Dot />
+        <Digit num={numbersTimes.minutes.first} />
+        <Digit num={numbersTimes.minutes.second} />
+        <Dot />
+        <Digit num={numbersTimes.seconds.first} />
+        <Digit num={numbersTimes.seconds.second} />
+      </div>
     </div>
   );
 }

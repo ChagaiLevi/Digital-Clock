@@ -1,3 +1,120 @@
+/*html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: #000814;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.clock {
+  display: flex;
+  gap: 20px;
+  transform: scale(2);
+}
+
+.digit {
+  position: relative;
+  width: 40px;
+  height: 70px;
+}
+
+.segment {
+  position: absolute;
+  background-color: #00f0ff;
+  opacity: 0.03;
+  transition: opacity 0.3s;
+  border-radius: 3px;
+}
+
+.on {
+  opacity: 1;
+  box-shadow: 0 0 10px #00f0ff;
+}
+
+.a {
+  top: 0;
+  left: 5px;
+  width: 30px;
+  height: 6px;
+}
+
+.b {
+  top: 5px;
+  right: 0;
+  width: 6px;
+  height: 25px;
+}
+
+.c {
+  bottom: 5px;
+  right: 0;
+  width: 6px;
+  height: 25px;
+}
+
+.d {
+  bottom: 0;
+  left: 5px;
+  width: 30px;
+  height: 6px;
+}
+
+.e {
+  bottom: 5px;
+  left: 0;
+  width: 6px;
+  height: 25px;
+}
+
+.f {
+  top: 5px;
+  left: 0;
+  width: 6px;
+  height: 25px;
+}
+
+.g {
+  top: 32px;
+  left: 5px;
+  width: 30px;
+  height: 6px;
+}
+
+.colon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: #00f0ff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #00f0ff;
+  margin: 6px 0;
+}*/
+
 html {
   scroll-behavior: smooth;
 }
@@ -22,6 +139,90 @@ body {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.date {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 70px;
+}
+
+.small-digit {
+  position: relative;
+  width: 20px;
+  height: 35px;
+}
+
+.small-segment {
+  position: absolute;
+  background-color: #00f0ff;
+  opacity: 0.03;
+  transition: opacity 0.3s;
+  border-radius: 2px;
+}
+
+.small-on {
+  opacity: 1;
+  box-shadow: 0 0 10px #00f0ff;
+}
+
+.small-segment.a {
+  top: 0;
+  left: 2.5px;
+  width: 15px;
+  height: 3px;
+}
+
+.small-segment.b {
+  top: 2.5px;
+  right: 0;
+  width: 3px;
+  height: 12.5px;
+}
+
+.small-segment.c {
+  bottom: 2.5px;
+  right: 0;
+  width: 3px;
+  height: 12.5px;
+}
+
+.small-segment.d {
+  bottom: 0;
+  left: 2.5px;
+  width: 15px;
+  height: 3px;
+}
+
+.small-segment.e {
+  bottom: 2.5px;
+  left: 0;
+  width: 3px;
+  height: 12.5px;
+}
+
+.small-segment.f {
+  top: 2.5px;
+  left: 0;
+  width: 3px;
+  height: 12.5px;
+}
+
+.small-segment.g {
+  top: 16px;
+  left: 2.5px;
+  width: 15px;
+  height: 3px;
+}
+
+.spacer {
+  width: 20px;
 }
 
 .clock {

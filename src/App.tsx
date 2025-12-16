@@ -4,7 +4,8 @@ import Dot from "./Components/Dot";
 import Digit from "./Components/Digit";
 
 type dateProps = {
-  day: { first: number | null; second: number | null; };
+  day: { first: string | null; second: string | null; third: string | null; };
+  dayDate: { first: number | null; second: number | null; };
   month: { first: string | null; second: string | null; third: string | null; };
   year: { first: number | null; second: number | null; third: number | null; fourth: number | null; };
 }
@@ -17,7 +18,8 @@ type NumberProps = {
 
 function App() {
   const [date, setDate] = useState<dateProps>({
-    day: { first: null, second: null },
+    day: { first: null, second: null, third: null },
+    dayDate: { first: null, second: null },
     month: { first: null, second: null, third: null },
     year: { first: null, second: null, third: null, fourth: null },
   });
@@ -30,20 +32,27 @@ function App() {
 
   useEffect(() => {
     const mainFunction = () => {
+      const days: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
       const months: string[] = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
       const date = new Date();
 
+      const dayNumber: number = date.getDay();
       const hoursNumber: number = date.getHours();
       const minutesNumber: number = date.getMinutes();
       const secondsNumber: number = date.getSeconds();
-      const daysNumber: number = date.getDate();
+      const daysDateNumber: number = date.getDate();
       const monthsNumber: number = date.getMonth();
       const yearsNumber: number = date.getFullYear();
 
       setDate({
         day: {
-          first: daysNumber < 10 ? 0 : Math.floor(daysNumber / 10),
-          second: daysNumber < 10 ? daysNumber : daysNumber % 10,
+          first: days[dayNumber].charAt(0),
+          second: days[dayNumber].charAt(1),
+          third: days[dayNumber].charAt(2),
+        },
+        dayDate: {
+          first: daysDateNumber < 10 ? 0 : Math.floor(daysDateNumber / 10),
+          second: daysDateNumber < 10 ? daysDateNumber : daysDateNumber % 10,
         },
         month: {
           first: months[monthsNumber].charAt(0),
@@ -83,13 +92,18 @@ function App() {
   return (
     <div id="wrapper">
       <div className="date">
+        <Signal signal={date.day.first} />
+        <Signal signal={date.day.second} />
+        <Signal signal={date.day.third} />
+        <div className="spacer"></div>
+
         <Signal signal={date.month.first} />
         <Signal signal={date.month.second} />
         <Signal signal={date.month.third} />
         <div className="spacer"></div>
 
-        <Digit num={date.day.first} small />
-        <Digit num={date.day.second} small />
+        <Digit num={date.dayDate.first} small />
+        <Digit num={date.dayDate.second} small />
         <div className="spacer"></div>
 
         <Digit num={date.year.first} small />

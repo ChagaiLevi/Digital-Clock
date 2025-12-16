@@ -113,7 +113,6 @@ const Digit: React.FC<{ num: number | null, small?: boolean }> = ({ num, small =
     return element;
   }
 
-  //element(1, numberElements.up);
   theFunction();
 
   return (

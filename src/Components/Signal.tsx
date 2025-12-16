@@ -9,10 +9,9 @@ type SignalProps = {
   downLeft: boolean;
   upLeft: boolean;
   center: boolean;
-  centerUp: boolean;
-  centerDown: boolean;
-  centerLeft: boolean;
-  centerRight: boolean;
+  upTwo: boolean;
+  upLeftTwo: boolean;
+  downLeftTwo: boolean;
 }
 
 const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
@@ -24,13 +23,14 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
     downLeft: false,
     upLeft: false,
     center: false,
-    centerUp: false,
-    centerDown: false,
-    centerLeft: false,
-    centerRight: false,
+    upTwo: false,
+    upLeftTwo: false,
+    downLeftTwo: false,
   }
+
   let character: boolean = false;
-  signal === 'M' || signal === 'N' ? character = true : character = false;
+
+  signal === 'M' ? character = true : character = false;
 
   const on = (signalElement: boolean): string => (signalElement ? 'small-on' : '');
 
@@ -117,10 +117,21 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
         signalElements.upLeft = true;
         break;
       case 'M':
-        // ! Not implemented
+        signalElements.up = true;
+        signalElements.upLeft = true;
+        signalElements.downLeft = true;
+        signalElements.upRight = true;
+        signalElements.downRight = true;
+        signalElements.upTwo = true;
+        signalElements.upLeftTwo = true;
+        signalElements.downLeftTwo = true;
         break;
       case 'N':
-        // ! Not implemented
+        signalElements.up = true;
+        signalElements.upRight = true;
+        signalElements.downRight = true;
+        signalElements.upLeft = true;
+        signalElements.downLeft = true;
         break;
       case 'O':
         signalElements.up = true;
@@ -185,59 +196,27 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
   }
 
   theFunction();
+
   return (
-    <div className="small-digit">
-      {element(1, signalElements.up)}
-      {element(2, signalElements.upRight)}
-      {element(3, signalElements.downRight)}
-      {element(4, signalElements.down)}
-      {element(5, signalElements.downLeft)}
-      {element(6, signalElements.upLeft)}
-      {element(7, signalElements.center)}
+    <>
+      <div className="small-digit">
+        {element(1, signalElements.up)}
+        {element(2, signalElements.upRight)}
+        {element(3, signalElements.downRight)}
+        {element(4, signalElements.down)}
+        {element(5, signalElements.downLeft)}
+        {element(6, signalElements.upLeft)}
+        {element(7, signalElements.center)}
+      </div>
 
       {character &&
-        <div className="small-digit expansion2">
-          <div className="small-segment a small-on expansion"></div>
+        <div className="expansion2">
+          <div className={`small-segment a small-on expansion`}></div>
           <div className="small-segment e small-on"></div>
           <div className="small-segment f small-on"></div>
         </div>
       }
-
-      {/*<>
-      <div className="small-digit">
-        <div className="small-segment a"></div>
-        <div className="small-segment b small-on"></div>
-        <div className="small-segment c small-on"></div>
-        <div className="small-segment d small-on"></div>
-        <div className="small-segment e small-on"></div>
-        <div className="small-segment f"></div>
-        <div className="small-segment g small-on"></div>
-      </div>
-      <div className="small-digit expansion2">
-        <div className="small-segment a small-on expansion"></div>
-        <div className="small-segment e small-on"></div>
-        <div className="small-segment f small-on"></div>
-      </div>
-      <div className="small-digit">
-        <div className="small-segment a small-on"></div>
-        <div className="small-segment b"></div>
-        <div className="small-segment c"></div>
-        <div className="small-segment d small-on"></div>
-        <div className="small-segment e small-on"></div>
-        <div className="small-segment f small-on"></div>
-        <div className="small-segment g small-on"></div>
-      </div>
-      <div className="small-digit">
-        <div className="small-segment a small-on"></div>
-        <div className="small-segment b"></div>
-        <div className="small-segment c"></div>
-        <div className="small-segment d small-on"></div>
-        <div className="small-segment e small-on"></div>
-        <div className="small-segment f small-on"></div>
-        <div className="small-segment g"></div>
-      </div>
-    </>*/}
-    </div>
+    </>
   )
 }
 

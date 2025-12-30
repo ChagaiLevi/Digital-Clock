@@ -161,12 +161,9 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
         signalElements.upRight = true;
         signalElements.downLeft = true;
         break;
-      case 'T':
-        signalElements.up = true;
-        signalElements.center = true;
-        signalElements.down = true;
-        signalElements.upLeft = true;
-        break;
+      /*case 'T':
+        
+        break;*/
       case 'U':
         signalElements.down = true;
         signalElements.upLeft = true;
@@ -200,16 +197,27 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
   return (
     <>
       <div className="small-digit">
-        {element(1, signalElements.up)}
-        {element(2, signalElements.upRight)}
-        {element(3, signalElements.downRight)}
-        {element(4, signalElements.down)}
-        {element(5, signalElements.downLeft)}
-        {element(6, signalElements.upLeft)}
-        {element(7, signalElements.center)}
+        {/*character && */signal === 'T' ?
+          <>
+            <div className="small-segment a small-on" style={{ height: 3, width: 17 }}></div>
+            <div className="small-segment b small-on" style={{ paddingRight: 'unset', marginRight: 8, marginTop: 2, borderRightWidth: 8 }}></div>
+            <div className="small-segment c small-on" style={{ marginRight: 8 }}></div>
+          </>
+          :
+          <>
+            {element(1, signalElements.up)}
+            {element(2, signalElements.upRight)}
+            {element(3, signalElements.downRight)}
+            {element(4, signalElements.down)}
+            {element(5, signalElements.downLeft)}
+            {element(6, signalElements.upLeft)}
+            {element(7, signalElements.center)}
+          </>
+        }
+
       </div>
 
-      {character &&
+      {/*character && */signal === 'M' &&
         <div className="expansion2">
           <div className={`small-segment a small-on expansion`}></div>
           <div className="small-segment e small-on"></div>

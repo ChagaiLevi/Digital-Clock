@@ -106,7 +106,6 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
         signalElements.downRight = true;
         break;
       case 'J':
-        signalElements.up = true;
         signalElements.down = true;
         signalElements.downRight = true;
         signalElements.upRight = true;

@@ -59,6 +59,8 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
         signalElements.downLeft = true;
         signalElements.down = true;
         signalElements.downRight = true;
+        signalElements.upRight = true;
+        signalElements.up = true;
         break;
       case 'C':
         signalElements.up = true;
@@ -84,6 +86,7 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
         signalElements.up = true;
         signalElements.center = true;
         signalElements.upLeft = true;
+        signalElements.downLeft = true;
         break;
       case 'G':
         signalElements.up = true;

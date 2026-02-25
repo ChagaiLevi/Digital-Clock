@@ -28,10 +28,6 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
     downLeftTwo: false,
   }
 
-  let character: boolean = false;
-
-  signal === 'M' ? character = true : character = false;
-
   const on = (signalElement: boolean): string => (signalElement ? 'small-on' : '');
 
   const clear: () => void = () => {
@@ -69,11 +65,12 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
         signalElements.upLeft = true;
         break;
       case 'D':
+        signalElements.upLeft = true;
+        signalElements.up = true;
         signalElements.upRight = true;
+        signalElements.downLeft = true;
         signalElements.downRight = true;
         signalElements.down = true;
-        signalElements.downLeft = true;
-        signalElements.center = true;
         break;
       case 'E':
         signalElements.up = true;
@@ -163,9 +160,8 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
         signalElements.upRight = true;
         signalElements.downLeft = true;
         break;
-      /*case 'T':
-        
-        break;*/
+      // case 'T':
+      //   break;
       case 'U':
         signalElements.down = true;
         signalElements.upLeft = true;
@@ -177,6 +173,13 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
         signalElements.down = true;
         signalElements.downLeft = true;
         signalElements.downRight = true;
+        break;
+      case 'W':
+        signalElements.down = true;
+        signalElements.downLeft = true;
+        signalElements.downRight = true;
+        signalElements.upLeft = true;
+        signalElements.upRight = true;
         break;
       case 'Y':
         signalElements.up = true;
@@ -199,7 +202,7 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
   return (
     <>
       <div className="small-digit">
-        {/*character && */signal === 'T' ?
+        {signal === 'T' ?
           <>
             <div className="small-segment a small-on" style={{ height: 3, width: 17 }}></div>
             <div className="small-segment b small-on" style={{ paddingRight: 'unset', marginRight: 8, marginTop: 2, borderRightWidth: 8 }}></div>
@@ -219,9 +222,17 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
 
       </div>
 
-      {/*character && */signal === 'M' &&
+      {signal === 'M' &&
         <div className="expansion2">
-          <div className={`small-segment a small-on expansion`}></div>
+          <div className={'small-segment a small-on expansion'}></div>
+          <div className="small-segment e small-on"></div>
+          <div className="small-segment f small-on"></div>
+        </div>
+      }
+      {signal === 'W' &&
+        <div className="expansion2">
+          <div className={`small-segment a expansion`}></div>
+          <div className="small-segment d small-on expansion"></div>
           <div className="small-segment e small-on"></div>
           <div className="small-segment f small-on"></div>
         </div>

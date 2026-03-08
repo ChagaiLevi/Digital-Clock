@@ -33,6 +33,10 @@ body {
   transition: margin-left 0.3s ease-in-out;
 }
 
+#wrapper.shifted {
+  margin-left: 300px;
+}
+
 .date {
   display: flex;
   gap: 5px;
@@ -236,7 +240,17 @@ body {
 }
 
 #sidebar.open {
+  left: 0;
   opacity: 1;
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  z-index: 5;
 }
 
 .setting {

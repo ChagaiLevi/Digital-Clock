@@ -19,6 +19,7 @@ type NumberProps = {
 }
 
 function App() {
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [date, setDate] = useState<dateProps>({
     day: { first: null, second: null, third: null },
     dayDate: { first: null, second: null },
@@ -93,8 +94,16 @@ function App() {
 
   return (
     <>
-      <SettingsPage />
-      <div id="wrapper">
+      {isSettingsOpen && (
+        <button
+          className="sidebar-backdrop"
+          type="button"
+          aria-label="Close settings"
+          onClick={() => setIsSettingsOpen(false)}
+        />
+      )}
+      <SettingsPage isOpen={isSettingsOpen} />
+      <div id="wrapper" className={isSettingsOpen ? "shifted" : ""}>
         <div className="date">
           <Signal signal={date.day.first} />
           <Signal signal={date.day.second} />
@@ -128,7 +137,7 @@ function App() {
           <Digit num={numbersTimes.seconds.second} />
         </div>
       </div>
-      <SettingsButton />
+      <SettingsButton onClick={() => setIsSettingsOpen((current) => !current)} />
     </>
   );
 }

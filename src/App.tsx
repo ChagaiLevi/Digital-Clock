@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import SettingsPage from "./Components/SettingsPage";
+import SettingsButton from "./Components/SettingsButton";
 import Signal from "./Components/Signal";
 import Dot from "./Components/Dot";
 import Digit from "./Components/Digit";
@@ -90,40 +92,44 @@ function App() {
   }, []);
 
   return (
-    <div id="wrapper">
-      <div className="date">
-        <Signal signal={date.day.first} />
-        <Signal signal={date.day.second} />
-        <Signal signal={date.day.third} />
-        <div className="spacer"></div>
+    <>
+      <SettingsPage />
+      <div id="wrapper">
+        <div className="date">
+          <Signal signal={date.day.first} />
+          <Signal signal={date.day.second} />
+          <Signal signal={date.day.third} />
+          <div className="spacer"></div>
 
-        <Signal signal={date.month.first} />
-        <Signal signal={date.month.second} />
-        <Signal signal={date.month.third} />
-        <div className="spacer"></div>
+          <Signal signal={date.month.first} />
+          <Signal signal={date.month.second} />
+          <Signal signal={date.month.third} />
+          <div className="spacer"></div>
 
-        <Digit num={date.dayDate.first} small />
-        <Digit num={date.dayDate.second} small />
-        <div className="spacer"></div>
+          <Digit num={date.dayDate.first} small />
+          <Digit num={date.dayDate.second} small />
+          <div className="spacer"></div>
 
-        <Digit num={date.year.first} small />
-        <Digit num={date.year.second} small />
-        <Digit num={date.year.third} small />
-        <Digit num={date.year.fourth} small />
-        <div className="spacer"></div>
+          <Digit num={date.year.first} small />
+          <Digit num={date.year.second} small />
+          <Digit num={date.year.third} small />
+          <Digit num={date.year.fourth} small />
+          <div className="spacer"></div>
+        </div>
+
+        <div className="clock">
+          <Digit num={numbersTimes.hours.first} />
+          <Digit num={numbersTimes.hours.second} />
+          <Dot />
+          <Digit num={numbersTimes.minutes.first} />
+          <Digit num={numbersTimes.minutes.second} />
+          <Dot />
+          <Digit num={numbersTimes.seconds.first} />
+          <Digit num={numbersTimes.seconds.second} />
+        </div>
       </div>
-
-      <div className="clock">
-        <Digit num={numbersTimes.hours.first} />
-        <Digit num={numbersTimes.hours.second} />
-        <Dot />
-        <Digit num={numbersTimes.minutes.first} />
-        <Digit num={numbersTimes.minutes.second} />
-        <Dot />
-        <Digit num={numbersTimes.seconds.first} />
-        <Digit num={numbersTimes.seconds.second} />
-      </div>
-    </div>
+      <SettingsButton />
+    </>
   );
 }
 

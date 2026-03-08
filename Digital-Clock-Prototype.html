@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Clock Static</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background-color: #000814;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      animation: fadeIn 1s ease-in-out;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    #wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: margin-left 0.3s ease-in-out;
+    }
+
+    .date {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 70px;
+    }
+
+    .small-digit {
+      position: relative;
+      width: 20px;
+      height: 35px;
+    }
+
+    .small-segment {
+      position: absolute;
+      background-color: #00f0ff;
+      opacity: 0.03;
+      transition: opacity 0.3s;
+      border-radius: 2px;
+    }
+
+    .small-on {
+      opacity: 1;
+      box-shadow: 0 0 10px #00f0ff;
+    }
+
+    .small-segment.a {
+      top: 0;
+      left: 2.5px;
+      width: 15px;
+      height: 3px;
+    }
+
+    .small-segment.b {
+      top: 2.5px;
+      right: 0;
+      width: 3px;
+      height: 12.5px;
+    }
+
+    .small-segment.c {
+      bottom: 2.5px;
+      right: 0;
+      width: 3px;
+      height: 12.5px;
+    }
+
+    .small-segment.d {
+      bottom: 0;
+      left: 2.5px;
+      width: 15px;
+      height: 3px;
+    }
+
+    .small-segment.e {
+      bottom: 2.5px;
+      left: 0;
+      width: 3px;
+      height: 12.5px;
+    }
+
+    .small-segment.f {
+      top: 2.5px;
+      left: 0;
+      width: 3px;
+      height: 12.5px;
+    }
+
+    .small-segment.g {
+      top: 16px;
+      left: 2.5px;
+      width: 15px;
+      height: 3px;
+    }
+
+    .spacer {
+      width: 20px;
+    }
+
+    .clock {
+      display: flex;
+      gap: 20px;
+      transform: scale(2);
+    }
+
+    .digit {
+      position: relative;
+      width: 40px;
+      height: 70px;
+    }
+
+    .segment {
+      position: absolute;
+      background-color: #00f0ff;
+      opacity: 0.03;
+      transition: opacity 0.3s;
+      border-radius: 3px;
+    }
+
+    .on {
+      opacity: 1;
+      box-shadow: 0 0 10px #00f0ff;
+    }
+
+    .a {
+      top: 0;
+      left: 5px;
+      width: 30px;
+      height: 6px;
+    }
+
+    .b {
+      top: 5px;
+      right: 0;
+      width: 6px;
+      height: 25px;
+    }
+
+    .c {
+      bottom: 5px;
+      right: 0;
+      width: 6px;
+      height: 25px;
+    }
+
+    .d {
+      bottom: 0;
+      left: 5px;
+      width: 30px;
+      height: 6px;
+    }
+
+    .e {
+      bottom: 5px;
+      left: 0;
+      width: 6px;
+      height: 25px;
+    }
+
+    .f {
+      top: 5px;
+      left: 0;
+      width: 6px;
+      height: 25px;
+    }
+
+    .g {
+      top: 32px;
+      left: 5px;
+      width: 30px;
+      height: 6px;
+    }
+
+    .colon {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 70px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      background-color: #00f0ff;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #00f0ff;
+      margin: 6px 0;
+    }
+
+    #gear {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: #00f0ff;
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.3s;
+      z-index: 20;
+    }
+
+    #gear:hover {
+      transform: rotate(90deg);
+    }
+
+    #sidebar {
+      position: fixed;
+      left: -300px;
+      top: 0;
+      bottom: 0;
+      width: 300px;
+      background-color: #000814;
+      color: #00f0ff;
+      padding: 20px;
+      box-sizing: border-box;
+      transition: left 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      z-index: 10;
+      overflow-y: auto;
+      opacity: 0;
+    }
+
+    #sidebar.open {
+      opacity: 1;
+    }
+
+    .setting {
+      margin-bottom: 20px;
+    }
+
+    .setting label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    select {
+      background: transparent;
+      color: #00f0ff;
+      border: 2px solid #00f0ff;
+      padding: 5px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="%2300f0ff"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: background-position 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    select:focus {
+      outline: none;
+      box-shadow: 0 0 15px #00f0ff;
+      transform: scale(1.05);
+    }
+
+    select:not(:focus) {
+      box-shadow: none;
+      transform: scale(1);
+    }
+
+    select.changed {
+      animation: flash 0.5s ease-in-out;
+    }
+
+    @keyframes flash {
+      0% {
+        box-shadow: 0 0 15px #00f0ff;
+      }
+
+      50% {
+        box-shadow: 0 0 30px #00f0ff;
+      }
+
+      100% {
+        box-shadow: 0 0 15px #00f0ff;
+      }
+    }
+
+    option {
+      background: #000814;
+      color: #00f0ff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sidebar">
+    <h2 style="text-align: center; margin-bottom: 30px;">Settings</h2>
+    <div class="setting">
+      <label for="time-format">Time format</label>
+      <select id="time-format">
+        <option value="24h" selected>24-H Format</option>
+        <option value="12h">12-H Format</option>
+      </select>
+    </div>
+    <div class="setting">
+      <label for="date-format">Date settings</label>
+      <select id="date-format">
+        <option value="full_name" selected>Shortcut name</option>
+        <option value="full_name">Full name</option>
+        <option value="dd/mm/yyyy">DD/MM/YYYY</option>
+        <option value="mm/dd/yyyy">MM/DD/YYYY</option>
+        <option value="dd mm yyyy">DD MM YYYY</option>
+        <option value="mm dd yyyy">MM DD YYYY</option>
+      </select>
+    </div>
+    <div class="setting">
+      <label for="day">Day</label>
+      <select id="day">
+        <option value="shortcut" selected>Shortcut</option>
+        <option value="full">Full</option>
+      </select>
+    </div>
+  </div>
+  <div id="wrapper">
+    <div class="date">
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b "></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e "></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a "></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g "></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d "></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g "></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="small-digit">
+        <div class="small-segment a "></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e "></div>
+        <div class="small-segment f "></div>
+        <div class="small-segment g "></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a "></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g "></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d "></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g "></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g "></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a "></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d "></div>
+        <div class="small-segment e "></div>
+        <div class="small-segment f "></div>
+        <div class="small-segment g "></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c "></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f "></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g "></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c "></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f "></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b "></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="clock">
+      <div class="digit">
+        <div class="segment a on"></div>
+        <div class="segment b on"></div>
+        <div class="segment c on"></div>
+        <div class="segment d on"></div>
+        <div class="segment e on"></div>
+        <div class="segment f on"></div>
+        <div class="segment g "></div>
+      </div>
+      <div class="digit">
+        <div class="segment a "></div>
+        <div class="segment b on"></div>
+        <div class="segment c on"></div>
+        <div class="segment d "></div>
+        <div class="segment e "></div>
+        <div class="segment f "></div>
+        <div class="segment g "></div>
+      </div>
+      <div class="colon">
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="digit">
+        <div class="segment a on"></div>
+        <div class="segment b on"></div>
+        <div class="segment c on"></div>
+        <div class="segment d on"></div>
+        <div class="segment e on"></div>
+        <div class="segment f on"></div>
+        <div class="segment g "></div>
+      </div>
+      <div class="digit">
+        <div class="segment a on"></div>
+        <div class="segment b on"></div>
+        <div class="segment c on"></div>
+        <div class="segment d on"></div>
+        <div class="segment e on"></div>
+        <div class="segment f on"></div>
+        <div class="segment g "></div>
+      </div>
+      <div class="colon">
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="digit">
+        <div class="segment a on"></div>
+        <div class="segment b on"></div>
+        <div class="segment c on"></div>
+        <div class="segment d on"></div>
+        <div class="segment e on"></div>
+        <div class="segment f on"></div>
+        <div class="segment g "></div>
+      </div>
+      <div class="digit">
+        <div class="segment a on"></div>
+        <div class="segment b on"></div>
+        <div class="segment c on"></div>
+        <div class="segment d on"></div>
+        <div class="segment e on"></div>
+        <div class="segment f on"></div>
+        <div class="segment g "></div>
+      </div>
+    </div>
+  </div>
+  <button id="gear">⚙️</button>
+</body>
+<script>
+  const gear = document.getElementById('gear');
+  const sidebar = document.getElementById('sidebar');
+  const wrapper = document.getElementById('wrapper');
+
+  function toggleSidebar() {
+    if (sidebar.style.left === '0px') {
+      sidebar.style.left = '-300px';
+      sidebar.style.opacity = '0';
+      wrapper.style.marginLeft = '0px';
+    } else {
+      sidebar.style.left = '0px';
+      sidebar.style.opacity = '1';
+      wrapper.style.marginLeft = '300px';
+    }
+  }
+
+  gear.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleSidebar();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (sidebar.style.left === '0px' && !sidebar.contains(e.target) && !gear.contains(e.target)) {
+      toggleSidebar();
+    }
+  });
+
+  const selects = document.querySelectorAll('select');
+  selects.forEach(select => {
+    select.addEventListener('change', () => {
+      select.classList.add('changed');
+      setTimeout(() => {
+        select.classList.remove('changed');
+      }, 500);
+    });
+  });
+</script>
+
+</html>

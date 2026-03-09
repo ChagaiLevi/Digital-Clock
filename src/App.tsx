@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import SettingsPage from "./Components/SettingsPage";
 import SettingsButton from "./Components/SettingsButton";
+import Clock from "./Components/Clock";
 import Signal from "./Components/Signal";
-import Dot from "./Components/Dot";
 import Digit from "./Components/Digit";
 
 type dateProps = {
@@ -12,14 +12,15 @@ type dateProps = {
   year: { first: number | null; second: number | null; third: number | null; fourth: number | null; };
 }
 
-type NumberProps = {
-  hours: { first: number | null; second: number | null; };
+export type NumberProps = {
+  hours: { first: number | null; second: number | null, ampm: string | undefined; };
   minutes: { first: number | null; second: number | null; };
   seconds: { first: number | null; second: number | null; };
 }
 
 function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isMeridiem, setIsMeridiem] = useState(false);
   const [date, setDate] = useState<dateProps>({
     day: { first: null, second: null, third: null },
     dayDate: { first: null, second: null },
@@ -28,7 +29,7 @@ function App() {
   });
 
   const [numbersTimes, setNumbersTimes] = useState<NumberProps>({
-    hours: { first: null, second: null },
+    hours: { first: null, second: null, ampm: undefined, },
     minutes: { first: null, second: null },
     seconds: { first: null, second: null },
   });
@@ -40,12 +41,18 @@ function App() {
       const date = new Date();
 
       const dayNumber: number = date.getDay();
-      const hoursNumber: number = date.getHours();
+      let hoursNumber: number = date.getHours();
       const minutesNumber: number = date.getMinutes();
       const secondsNumber: number = date.getSeconds();
       const daysDateNumber: number = date.getDate();
       const monthsNumber: number = date.getMonth();
       const yearsNumber: number = date.getFullYear();
+      let ampm: string | undefined = undefined;
+
+      if (isMeridiem) {
+        ampm = hoursNumber > 12 ? 'PM' : 'AM';
+        hoursNumber = hoursNumber % 12 || 12;
+      }
 
       setDate({
         day: {
@@ -74,6 +81,7 @@ function App() {
         hours: {
           first: hoursNumber < 10 ? 0 : Math.floor(hoursNumber / 10),
           second: hoursNumber < 10 ? hoursNumber : hoursNumber % 10,
+          ampm,
         },
         minutes: {
           first: minutesNumber < 10 ? 0 : Math.floor(minutesNumber / 10),
@@ -90,7 +98,7 @@ function App() {
     const intervalId = setInterval(mainFunction, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [isMeridiem]);
 
   return (
     <>
@@ -102,7 +110,7 @@ function App() {
           onClick={() => setIsSettingsOpen(false)}
         />
       )}
-      <SettingsPage isOpen={isSettingsOpen} />
+      <SettingsPage isOpen={isSettingsOpen} setIsMeridiem={setIsMeridiem} />
       <div id="wrapper" className={isSettingsOpen ? "shifted" : ""}>
         <div className="date">
           <Signal signal={date.day.first} />
@@ -126,16 +134,7 @@ function App() {
           <div className="spacer"></div>
         </div>
 
-        <div className="clock">
-          <Digit num={numbersTimes.hours.first} />
-          <Digit num={numbersTimes.hours.second} />
-          <Dot />
-          <Digit num={numbersTimes.minutes.first} />
-          <Digit num={numbersTimes.minutes.second} />
-          <Dot />
-          <Digit num={numbersTimes.seconds.first} />
-          <Digit num={numbersTimes.seconds.second} />
-        </div>
+        <Clock numbersTimes={numbersTimes} isMeridiem={isMeridiem} />
       </div>
       <SettingsButton onClick={() => setIsSettingsOpen((current) => !current)} />
     </>

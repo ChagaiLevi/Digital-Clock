@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 
 type SettingsPageProps = {
   isOpen: boolean;
+  setIsMeridiem?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SettingsPage = ({ isOpen }: SettingsPageProps) => {
+const SettingsPage = ({ isOpen, setIsMeridiem }: SettingsPageProps) => {
   const [timeFormat, setTimeFormat] = useState("24h");
   const [dateFormat, setDateFormat] = useState("shortcut_name");
   const [dayFormat, setDayFormat] = useState("shortcut");
@@ -34,6 +35,10 @@ const SettingsPage = ({ isOpen }: SettingsPageProps) => {
           onChange={(event) => {
             setTimeFormat(event.target.value);
             setChangedSelect("time-format");
+
+            if (setIsMeridiem) {
+              setIsMeridiem(event.target.value === "12h");
+            }
           }}
         >
           <option value="24h">24-H Format</option>

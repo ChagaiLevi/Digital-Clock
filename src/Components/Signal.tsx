@@ -14,7 +14,12 @@ type SignalProps = {
   downLeftTwo: boolean;
 }
 
-const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
+type SignalElementProps = {
+  signal: string | null;
+  isMeridiem?: boolean;
+};
+
+const Signal: React.FC<SignalElementProps> = ({ signal, isMeridiem = false }) => {
   const signalElements: SignalProps = {
     up: false,
     down: false,
@@ -28,7 +33,7 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
     downLeftTwo: false,
   }
 
-  const on = (signalElement: boolean): string => (signalElement ? 'small-on' : '');
+  const on = (signalElement: boolean): string => (signalElement ? `${!isMeridiem ? 'small-' : ''}on` : '');
 
   const clear: () => void = () => {
     for (const key in signalElements) {
@@ -145,6 +150,7 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
         signalElements.center = true;
         signalElements.upLeft = true;
         signalElements.upRight = true;
+        signalElements.downLeft = true;
         break;
       case 'R':
         signalElements.up = true;
@@ -192,9 +198,11 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
     }
   }
 
+  const className: string = `${!isMeridiem ? 'small-' : ''}segment ${!isMeridiem ? 'small-' : ''}on`;
+
   const element: (signalNumber: number, side: boolean) => JSX.Element = (signalNumber, side) => {
     const signal: string = `${signalNumber === 1 ? "a" : signalNumber === 2 ? "b" : signalNumber === 3 ? "c" : signalNumber === 4 ? "d" : signalNumber === 5 ? "e" : signalNumber === 6 ? "f" : "g"}`;
-    const element: JSX.Element = <div className={`small-segment ${signal} ${on(side)}`}></div>;
+    const element: JSX.Element = <div className={`${!isMeridiem ? 'small-' : ''}segment ${signal} ${on(side)}`}></div>;
     return element;
   }
 
@@ -202,12 +210,12 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
 
   return (
     <>
-      <div className="small-digit">
+      <div className={`${!isMeridiem ? 'small-' : ''}digit`}>
         {signal === 'T' ?
           <>
-            <div className="small-segment a small-on" style={{ height: 3, width: 17 }}></div>
-            <div className="small-segment b small-on" style={{ paddingRight: 'unset', marginRight: 8, marginTop: 2, borderRightWidth: 8 }}></div>
-            <div className="small-segment c small-on" style={{ marginRight: 8 }}></div>
+            <div className={`${className} a`} style={{ height: 3, width: 17 }}></div>
+            <div className={`${className} b`} style={{ paddingRight: 'unset', marginRight: 8, marginTop: 2, borderRightWidth: 8 }}></div>
+            <div className={`${className} c`} style={{ marginRight: 8 }}></div>
           </>
           :
           <>
@@ -225,9 +233,9 @@ const Signal: React.FC<{ signal: string | null }> = ({ signal }) => {
 
       {signal === 'M' &&
         <div className="expansion2">
-          <div className={'small-segment a small-on expansion'}></div>
-          <div className="small-segment e small-on"></div>
-          <div className="small-segment f small-on"></div>
+          <div className={`${className} a ${!isMeridiem ? 'expansion' : 'meridiem'}`}></div>
+          <div className={`${className} e`}></div>
+          <div className={`${className} f ${isMeridiem ? 'meridiem2' : ''}`}></div>
         </div>
       }
       {signal === 'W' &&

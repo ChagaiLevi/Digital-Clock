@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import SettingsPage from "./Components/SettingsPage";
 import SettingsButton from "./Components/SettingsButton";
 import Clock from "./Components/Clock";
-import Signal from "./Components/Signal";
-import Digit from "./Components/Digit";
+import DateC from "./Components/Date";
 
-type dateProps = {
+export type dateProps = {
   day: { first: string | null; second: string | null; third: string | null; };
   dayDate: { first: number | null; second: number | null; };
   month: { first: string | null; second: string | null; third: string | null; };
@@ -38,15 +37,15 @@ function App() {
     const mainFunction = () => {
       const days: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
       const months: string[] = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-      const date = new Date();
+      const dateData: Date = new Date();
 
-      const dayNumber: number = date.getDay();
-      let hoursNumber: number = date.getHours();
-      const minutesNumber: number = date.getMinutes();
-      const secondsNumber: number = date.getSeconds();
-      const daysDateNumber: number = date.getDate();
-      const monthsNumber: number = date.getMonth();
-      const yearsNumber: number = date.getFullYear();
+      const dayNumber: number = dateData.getDay();
+      let hoursNumber: number = dateData.getHours();
+      const minutesNumber: number = dateData.getMinutes();
+      const secondsNumber: number = dateData.getSeconds();
+      const daysDateNumber: number = dateData.getDate();
+      const monthsNumber: number = dateData.getMonth();
+      const yearsNumber: number = dateData.getFullYear();
       let ampm: string | undefined = undefined;
 
       if (isMeridiem) {
@@ -101,43 +100,15 @@ function App() {
   }, [isMeridiem]);
 
   return (
-    <>
-      {isSettingsOpen && (
-        <button
-          className="sidebar-backdrop"
-          type="button"
-          aria-label="Close settings"
-          onClick={() => setIsSettingsOpen(false)}
-        />
-      )}
+    <div className="app">
+      {isSettingsOpen && (<button className="sidebar-backdrop" type="button" aria-label="Close settings" onClick={() => setIsSettingsOpen(false)} />)}
       <SettingsPage isOpen={isSettingsOpen} setIsMeridiem={setIsMeridiem} />
       <div id="wrapper" className={isSettingsOpen ? "shifted" : ""}>
-        <div className="date">
-          <Signal signal={date.day.first} />
-          <Signal signal={date.day.second} />
-          <Signal signal={date.day.third} />
-          <div className="spacer"></div>
-
-          <Signal signal={date.month.first} />
-          <Signal signal={date.month.second} />
-          <Signal signal={date.month.third} />
-          <div className="spacer"></div>
-
-          <Digit num={date.dayDate.first} small />
-          <Digit num={date.dayDate.second} small />
-          <div className="spacer"></div>
-
-          <Digit num={date.year.first} small />
-          <Digit num={date.year.second} small />
-          <Digit num={date.year.third} small />
-          <Digit num={date.year.fourth} small />
-          <div className="spacer"></div>
-        </div>
-
+        <DateC date={date} />
         <Clock numbersTimes={numbersTimes} isMeridiem={isMeridiem} />
       </div>
       <SettingsButton onClick={() => setIsSettingsOpen((current) => !current)} />
-    </>
+    </div>
   );
 }
 

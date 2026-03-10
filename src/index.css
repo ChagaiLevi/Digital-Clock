@@ -336,3 +336,15 @@ option {
 .meridiem2 {
   margin-top: 35px;
 }
+
+.slash {
+  width: 16px;
+  height: 35px;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.slash line {
+  filter: drop-shadow(0 0 3px #00f0ff) drop-shadow(0 0 10px #00f0ff);
+  opacity: 1;
+}

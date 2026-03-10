@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 
 type SettingsPageProps = {
   isOpen: boolean;
-  setIsMeridiem?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsMeridiem: React.Dispatch<React.SetStateAction<boolean>>;
+  setValOfDate: React.Dispatch<React.SetStateAction<string>>;
+  setValOfDay: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const SettingsPage = ({ isOpen, setIsMeridiem }: SettingsPageProps) => {
-  const [timeFormat, setTimeFormat] = useState("24h");
-  const [dateFormat, setDateFormat] = useState("shortcut_name");
-  const [dayFormat, setDayFormat] = useState("shortcut");
+const SettingsPage = ({ isOpen, setIsMeridiem, setValOfDate, setValOfDay }: SettingsPageProps) => {
+  const [timeFormat, setTimeFormat] = useState(localStorage.getItem('isMeridiem') === 'true' ? '12h' : '24h');
+  const [dateFormat, setDateFormat] = useState(localStorage.getItem('valOfDate') || "shortcut_name");
+  const [dayFormat, setDayFormat] = useState(localStorage.getItem('valOfDay') || "shortcut");
   const [changedSelect, setChangedSelect] = useState<string | null>(null);
 
   useEffect(() => {
@@ -54,14 +56,18 @@ const SettingsPage = ({ isOpen, setIsMeridiem }: SettingsPageProps) => {
           onChange={(event) => {
             setDateFormat(event.target.value);
             setChangedSelect("date-format");
+
+            if (setValOfDate) {
+              setValOfDate(event.target.value);
+            }
           }}
         >
           <option value="shortcut_name">Shortcut name</option>
           <option value="full_name">Full name</option>
           <option value="dd/mm/yyyy">DD/MM/YYYY</option>
           <option value="mm/dd/yyyy">MM/DD/YYYY</option>
-          <option value="dd mm yyyy">DD MM YYYY</option>
-          <option value="mm dd yyyy">MM DD YYYY</option>
+          <option value="yyyy/mm/dd">YYYY/MM/DD</option>
+          <option value="yyyy/dd/mm">YYYY/DD/MM</option>
         </select>
       </div>
       <div className="setting">
@@ -73,10 +79,15 @@ const SettingsPage = ({ isOpen, setIsMeridiem }: SettingsPageProps) => {
           onChange={(event) => {
             setDayFormat(event.target.value);
             setChangedSelect("day");
+
+            if (setValOfDay) {
+              setValOfDay(event.target.value);
+            }
           }}
         >
           <option value="shortcut">Shortcut</option>
           <option value="full">Full</option>
+          <option value="number">Number</option>
         </select>
       </div>
     </div>

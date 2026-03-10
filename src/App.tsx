@@ -5,9 +5,9 @@ import Clock from "./Components/Clock";
 import DateC from "./Components/Date";
 
 export type dateProps = {
-  day: { first: string | null; second: string | null; third: string | null; };
+  day: { text: any; number: number | null; };
   dayDate: { first: number | null; second: number | null; };
-  month: { first: string | null; second: string | null; third: string | null; };
+  month: { text: any; firstNumber: number | null; secondNumber: number | null; };
   year: { first: number | null; second: number | null; third: number | null; fourth: number | null; };
 }
 
@@ -18,12 +18,14 @@ export type NumberProps = {
 }
 
 function App() {
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isMeridiem, setIsMeridiem] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [isMeridiem, setIsMeridiem] = useState<boolean>(localStorage.getItem('isMeridiem') === 'true');
+  const [valOfDate, setValOfDate] = useState<string>(localStorage.getItem('valOfDate') || 'shortcut_name');
+  const [valOfDay, setValOfDay] = useState<string>(localStorage.getItem('valOfDay') || 'shortcut');
   const [date, setDate] = useState<dateProps>({
-    day: { first: null, second: null, third: null },
+    day: { text: () => [Array(8).fill('')], number: null },
     dayDate: { first: null, second: null },
-    month: { first: null, second: null, third: null },
+    month: { text: () => [Array(9).fill('')], firstNumber: null, secondNumber: null },
     year: { first: null, second: null, third: null, fourth: null },
   });
 
@@ -35,8 +37,8 @@ function App() {
 
   useEffect(() => {
     const mainFunction = () => {
-      const days: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-      const months: string[] = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+      const days: string[] = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+      const months: string[] = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
       const dateData: Date = new Date();
 
       const dayNumber: number = dateData.getDay();
@@ -47,6 +49,12 @@ function App() {
       const monthsNumber: number = dateData.getMonth();
       const yearsNumber: number = dateData.getFullYear();
       let ampm: string | undefined = undefined;
+      let firstFunction: any = (value: any) => {
+        return value < 10 ? 0 : Math.floor(value / 10);
+      };
+      let secondFunction: any = (value: any) => {
+        return value < 10 ? value : value % 10;
+      };
 
       if (isMeridiem) {
         ampm = hoursNumber > 12 ? 'PM' : 'AM';
@@ -55,18 +63,32 @@ function App() {
 
       setDate({
         day: {
-          first: days[dayNumber].charAt(0),
-          second: days[dayNumber].charAt(1),
-          third: days[dayNumber].charAt(2),
+          text: () => {
+            let value: string[] = [];
+
+            for (let i = 0; i < days[dayNumber].length; i++) {
+              value.push(days[dayNumber].charAt(i));
+            }
+            return value;
+          },
+          number: dayNumber + 1,
         },
         dayDate: {
-          first: daysDateNumber < 10 ? 0 : Math.floor(daysDateNumber / 10),
-          second: daysDateNumber < 10 ? daysDateNumber : daysDateNumber % 10,
+          first: firstFunction(daysDateNumber),
+          second: secondFunction(daysDateNumber),
         },
         month: {
-          first: months[monthsNumber].charAt(0),
-          second: months[monthsNumber].charAt(1),
-          third: months[monthsNumber].charAt(2),
+          text: () => {
+            let value: string[] = [];
+
+            for (let i = 0; i < months[monthsNumber].length; i++) {
+              value.push(months[monthsNumber].charAt(i));
+            }
+
+            return value;
+          },
+          firstNumber: firstFunction(monthsNumber),
+          secondNumber: secondFunction(monthsNumber),
         },
         year: {
           first: Math.floor(yearsNumber / 1000),
@@ -78,17 +100,17 @@ function App() {
 
       setNumbersTimes({
         hours: {
-          first: hoursNumber < 10 ? 0 : Math.floor(hoursNumber / 10),
-          second: hoursNumber < 10 ? hoursNumber : hoursNumber % 10,
+          first: firstFunction(hoursNumber),
+          second: secondFunction(hoursNumber),
           ampm,
         },
         minutes: {
-          first: minutesNumber < 10 ? 0 : Math.floor(minutesNumber / 10),
-          second: minutesNumber < 10 ? minutesNumber : minutesNumber % 10,
+          first: firstFunction(minutesNumber),
+          second: secondFunction(minutesNumber),
         },
         seconds: {
-          first: secondsNumber < 10 ? 0 : Math.floor(secondsNumber / 10),
-          second: secondsNumber < 10 ? secondsNumber : secondsNumber % 10,
+          first: firstFunction(secondsNumber),
+          second: secondFunction(secondsNumber),
         },
       });
     };
@@ -99,12 +121,18 @@ function App() {
     return () => clearInterval(intervalId);
   }, [isMeridiem]);
 
+  useEffect(() => {
+    localStorage.setItem('isMeridiem', JSON.stringify(isMeridiem));
+    localStorage.setItem('valOfDate', valOfDate);
+    localStorage.setItem('valOfDay', valOfDay);
+  }, [isMeridiem, valOfDate, valOfDay]);
+
   return (
     <div className="app">
       {isSettingsOpen && (<button className="sidebar-backdrop" type="button" aria-label="Close settings" onClick={() => setIsSettingsOpen(false)} />)}
-      <SettingsPage isOpen={isSettingsOpen} setIsMeridiem={setIsMeridiem} />
+      <SettingsPage isOpen={isSettingsOpen} setIsMeridiem={setIsMeridiem} setValOfDate={setValOfDate} setValOfDay={setValOfDay} />
       <div id="wrapper" className={isSettingsOpen ? "shifted" : ""}>
-        <DateC date={date} />
+        <DateC date={date} valOfDate={valOfDate} valOfDay={valOfDay} />
         <Clock numbersTimes={numbersTimes} isMeridiem={isMeridiem} />
       </div>
       <SettingsButton onClick={() => setIsSettingsOpen((current) => !current)} />

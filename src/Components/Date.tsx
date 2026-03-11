@@ -131,6 +131,10 @@ const Date: React.FC<dateElementProps> = ({ date, valOfDate, valOfDay }) => {
       case 'number':
         return (
           <>
+            <Signal signal={'D'} />
+            <Signal signal={'A'} />
+            <Signal signal={'Y'} />
+            <div className="spacer"></div>
             <Digit num={date.day.number} small />
           </>
         );

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Clock Static</title>
+  <title>Digital Clock - Sunday</title>
   <style>
     html {
       scroll-behavior: smooth;
@@ -39,11 +39,86 @@
       align-items: center;
     }
 
+    /* ── SUNDAY label ── */
+    .sunday {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .sunday-digit {
+      position: relative;
+      width: 28px;
+      height: 48px;
+    }
+
+    .sunday-segment {
+      position: absolute;
+      background-color: #00f0ff;
+      opacity: 0.03;
+      transition: opacity 0.3s;
+      border-radius: 2px;
+    }
+
+    .sunday-on {
+      opacity: 1;
+      box-shadow: 0 0 10px #00f0ff;
+    }
+
+    .sunday-segment.a {
+      top: 0;
+      left: 4px;
+      width: 20px;
+      height: 4px;
+    }
+
+    .sunday-segment.b {
+      top: 4px;
+      right: 0;
+      width: 4px;
+      height: 17px;
+    }
+
+    .sunday-segment.c {
+      bottom: 4px;
+      right: 0;
+      width: 4px;
+      height: 17px;
+    }
+
+    .sunday-segment.d {
+      bottom: 0;
+      left: 4px;
+      width: 20px;
+      height: 4px;
+    }
+
+    .sunday-segment.e {
+      bottom: 4px;
+      left: 0;
+      width: 4px;
+      height: 17px;
+    }
+
+    .sunday-segment.f {
+      top: 4px;
+      left: 0;
+      width: 4px;
+      height: 17px;
+    }
+
+    .sunday-segment.g {
+      top: 22px;
+      left: 4px;
+      width: 20px;
+      height: 4px;
+    }
+
+    /* ── DATE row ── */
     .date {
       display: flex;
       gap: 5px;
       margin-bottom: 70px;
-      align-items: center;
     }
 
     .small-digit {
@@ -63,6 +138,19 @@
     .small-on {
       opacity: 1;
       box-shadow: 0 0 10px #00f0ff;
+    }
+
+    /* Diagonal leg for R */
+    .small-segment.diag {
+      width: 3.5px;
+      height: 19px;
+      top: 20px;
+      left: 3px;
+      transform: rotate(-42deg);
+      transform-origin: top left;
+      border-radius: 2px;
+      background-color: #00f0ff;
+      box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
     }
 
     .small-segment.a {
@@ -114,23 +202,11 @@
       height: 3px;
     }
 
-    /* Diagonal slash via SVG */
-    .slash {
-      width: 16px;
-      height: 35px;
-      flex-shrink: 0;
-      overflow: visible;
-    }
-
-    .slash line {
-      filter: drop-shadow(0 0 3px #00f0ff) drop-shadow(0 0 10px #00f0ff);
-      opacity: 1;
-    }
-
     .spacer {
       width: 20px;
     }
 
+    /* ── CLOCK ── */
     .clock {
       display: flex;
       gap: 20px;
@@ -226,104 +302,201 @@
 
 <body>
   <div id="wrapper">
+
+    <!-- DATE -->
     <div class="date">
-      <!-- 0 -->
+      <!-- S -->
       <div class="small-digit">
         <div class="small-segment a small-on"></div>
-        <div class="small-segment b small-on"></div>
+        <div class="small-segment b "></div>
         <div class="small-segment c small-on"></div>
         <div class="small-segment d small-on"></div>
-        <div class="small-segment e small-on"></div>
+        <div class="small-segment e "></div>
         <div class="small-segment f small-on"></div>
-        <div class="small-segment g"></div>
-      </div>
-      <!-- 1 -->
-      <div class="small-digit">
-        <div class="small-segment a"></div>
-        <div class="small-segment b small-on"></div>
-        <div class="small-segment c small-on"></div>
-        <div class="small-segment d"></div>
-        <div class="small-segment e"></div>
-        <div class="small-segment f"></div>
-        <div class="small-segment g"></div>
-      </div>
-
-      <!-- / diagonal slash -->
-      <svg class="slash" viewBox="0 0 16 35" xmlns="http://www.w3.org/2000/svg">
-        <line x1="14" y1="2" x2="2" y2="33" stroke="#00f0ff" stroke-width="2" stroke-linecap="round"
-          stroke-dasharray="14 5" stroke-dashoffset="0" />
-      </svg>
-
-      <!-- 0 -->
-      <div class="small-digit">
-        <div class="small-segment a small-on"></div>
-        <div class="small-segment b small-on"></div>
-        <div class="small-segment c small-on"></div>
-        <div class="small-segment d small-on"></div>
-        <div class="small-segment e small-on"></div>
-        <div class="small-segment f small-on"></div>
-        <div class="small-segment g"></div>
-      </div>
-      <!-- 1 -->
-      <div class="small-digit">
-        <div class="small-segment a"></div>
-        <div class="small-segment b small-on"></div>
-        <div class="small-segment c small-on"></div>
-        <div class="small-segment d"></div>
-        <div class="small-segment e"></div>
-        <div class="small-segment f"></div>
-        <div class="small-segment g"></div>
-      </div>
-
-      <!-- / diagonal slash -->
-      <svg class="slash" viewBox="0 0 16 35" xmlns="http://www.w3.org/2000/svg">
-        <line x1="14" y1="2" x2="2" y2="33" stroke="#00f0ff" stroke-width="2" stroke-linecap="round"
-          stroke-dasharray="14 5" stroke-dashoffset="0" />
-      </svg>
-
-
-      <!-- 2 -->
-      <div class="small-digit">
-        <div class="small-segment a small-on"></div>
-        <div class="small-segment b small-on"></div>
-        <div class="small-segment c"></div>
-        <div class="small-segment d small-on"></div>
-        <div class="small-segment e small-on"></div>
-        <div class="small-segment f"></div>
         <div class="small-segment g small-on"></div>
       </div>
-      <!-- 0 -->
+      <!-- U -->
       <div class="small-digit">
-        <div class="small-segment a small-on"></div>
+        <div class="small-segment a "></div>
         <div class="small-segment b small-on"></div>
         <div class="small-segment c small-on"></div>
         <div class="small-segment d small-on"></div>
         <div class="small-segment e small-on"></div>
         <div class="small-segment f small-on"></div>
-        <div class="small-segment g"></div>
+        <div class="small-segment g "></div>
       </div>
-      <!-- 2 -->
+      <!-- N -->
       <div class="small-digit">
         <div class="small-segment a small-on"></div>
         <div class="small-segment b small-on"></div>
-        <div class="small-segment c"></div>
-        <div class="small-segment d small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d "></div>
         <div class="small-segment e small-on"></div>
-        <div class="small-segment f"></div>
-        <div class="small-segment g small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g "></div>
       </div>
-      <!-- 6 -->
+      <!-- D -->
       <div class="small-digit">
-        <div class="small-segment a small-on"></div>
-        <div class="small-segment b"></div>
+        <div class="small-segment a "></div>
+        <div class="small-segment b small-on"></div>
         <div class="small-segment c small-on"></div>
         <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f "></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <!-- A -->
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d "></div>
         <div class="small-segment e small-on"></div>
         <div class="small-segment f small-on"></div>
         <div class="small-segment g small-on"></div>
       </div>
+      <!-- Y -->
+      <div class="small-digit">
+        <div class="small-segment a "></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e "></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <div class="spacer"></div>
+      <!-- J -->
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f "></div>
+        <div class="small-segment g "></div>
+      </div>
+      <!-- A -->
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d "></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <!-- N -->
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d "></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g "></div>
+      </div>
+      <!-- U -->
+      <div class="small-digit">
+        <div class="small-segment a "></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g "></div>
+      </div>
+      <!-- A -->
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d "></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <!-- R -->
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c "></div>
+        <div class="small-segment d "></div>
+        <div class="small-segment e "></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g small-on"></div>
+        <div class="small-segment diag small-on"></div>
+      </div>
+      <!-- Y -->
+      <div class="small-digit">
+        <div class="small-segment a "></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e "></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g "></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a "></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d "></div>
+        <div class="small-segment e "></div>
+        <div class="small-segment f "></div>
+        <div class="small-segment g "></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c "></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f "></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g "></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b small-on"></div>
+        <div class="small-segment c "></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f "></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <div class="small-digit">
+        <div class="small-segment a small-on"></div>
+        <div class="small-segment b "></div>
+        <div class="small-segment c small-on"></div>
+        <div class="small-segment d small-on"></div>
+        <div class="small-segment e small-on"></div>
+        <div class="small-segment f small-on"></div>
+        <div class="small-segment g small-on"></div>
+      </div>
+      <div class="spacer"></div>
     </div>
 
+    <!-- CLOCK -->
     <div class="clock">
       <div class="digit">
         <div class="segment a on"></div>
@@ -388,6 +561,7 @@
         <div class="segment g "></div>
       </div>
     </div>
+
   </div>
 </body>
 

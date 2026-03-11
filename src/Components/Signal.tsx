@@ -155,7 +155,6 @@ const Signal: React.FC<SignalElementProps> = ({ signal, isMeridiem = false }) =>
       case 'R':
         signalElements.up = true;
         signalElements.upRight = true;
-        signalElements.downRight = true;
         signalElements.downLeft = true;
         signalElements.upLeft = true;
         signalElements.center = true;
@@ -167,8 +166,11 @@ const Signal: React.FC<SignalElementProps> = ({ signal, isMeridiem = false }) =>
         signalElements.upLeft = true;
         signalElements.downRight = true;
         break;
-      // case 'T':
-      //   break;
+      case 'T':
+        signalElements.up = true;
+        signalElements.upRight = true;
+        signalElements.downRight = true;
+        break;
       case 'U':
         signalElements.down = true;
         signalElements.upLeft = true;
@@ -189,11 +191,11 @@ const Signal: React.FC<SignalElementProps> = ({ signal, isMeridiem = false }) =>
         signalElements.upRight = true;
         break;
       case 'Y':
-        signalElements.up = true;
-        signalElements.center = true;
-        signalElements.down = true;
+        signalElements.upLeft = true;
         signalElements.upRight = true;
         signalElements.downRight = true;
+        signalElements.center = true;
+        signalElements.down = true;
         break;
     }
   }
@@ -228,7 +230,7 @@ const Signal: React.FC<SignalElementProps> = ({ signal, isMeridiem = false }) =>
             {element(7, signalElements.center)}
           </>
         }
-
+        {signal === 'R' && <div className="small-segment diag small-on"></div>}
       </div>
 
       {signal === 'M' &&

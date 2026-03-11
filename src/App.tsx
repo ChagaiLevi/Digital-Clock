@@ -39,7 +39,7 @@ function App() {
     const mainFunction = () => {
       const days: string[] = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
       const months: string[] = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
-      const dateData: Date = new Date('Sun Mar 8 2026 09:30:23 GMT+0200 (שעון ישראל (חורף))');
+      const dateData: Date = new Date();
 
       const dayNumber: number = dateData.getDay();
       let hoursNumber: number = dateData.getHours();
@@ -96,7 +96,7 @@ function App() {
           third: Math.floor((yearsNumber % 100) / 10),
           fourth: yearsNumber % 10,
         }
-      })
+      });
 
       setNumbersTimes({
         hours: {

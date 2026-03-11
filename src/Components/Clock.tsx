@@ -11,7 +11,6 @@ type ClockProps = {
 const Clock: React.FC<ClockProps> = ({ numbersTimes, isMeridiem }) => {
   return (
     <div className="clock">
-
       {(!isMeridiem || isMeridiem && numbersTimes.hours.first !== 0) && <Digit num={numbersTimes.hours.first} />}
       <Digit num={numbersTimes.hours.second} />
       <Dot />

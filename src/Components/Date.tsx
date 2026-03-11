@@ -10,8 +10,6 @@ type dateElementProps = {
 }
 
 const Date: React.FC<dateElementProps> = ({ date, valOfDate, valOfDay }) => {
-
-
   const dateFuntion = () => {
     const dayNumberElements = (
       <>
@@ -34,7 +32,6 @@ const Date: React.FC<dateElementProps> = ({ date, valOfDate, valOfDay }) => {
       </>
     );
 
-
     switch (valOfDate) {
       case 'shortcut_name':
         return (
@@ -43,10 +40,8 @@ const Date: React.FC<dateElementProps> = ({ date, valOfDate, valOfDay }) => {
             <Signal signal={date.month.text()[1]} />
             <Signal signal={date.month.text()[2]} />
             <div className="spacer"></div>
-
             {dayNumberElements}
             <div className="spacer"></div>
-
             {yearNumberElements}
             <div className="spacer"></div>
           </>
@@ -57,12 +52,9 @@ const Date: React.FC<dateElementProps> = ({ date, valOfDate, valOfDay }) => {
             {date.month.text().map((char: any, index: any) => (
               <Signal key={index} signal={char} />
             ))}
-
             <div className="spacer"></div>
-
             {dayNumberElements}
             <div className="spacer"></div>
-
             {yearNumberElements}
             <div className="spacer"></div>
           </>

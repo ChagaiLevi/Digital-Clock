@@ -95,6 +95,7 @@ const Signal: React.FC<SignalElementProps> = ({ signal, isMeridiem = false }) =>
         signalElements.down = true;
         signalElements.center = true;
         signalElements.upLeft = true;
+        signalElements.upRight = true;
         signalElements.downRight = true;
         break;
       case 'H':
@@ -213,11 +214,12 @@ const Signal: React.FC<SignalElementProps> = ({ signal, isMeridiem = false }) =>
   return (
     <>
       <div className={`${!isMeridiem ? 'small-' : ''}digit`}>
-        {signal === 'T' ?
+        {signal === 'T' || signal === 'I' ?
           <>
             <div className={`${className} a`} style={{ height: 3, width: 17 }}></div>
             <div className={`${className} b`} style={{ paddingRight: 'unset', marginRight: 8, marginTop: 2, borderRightWidth: 8 }}></div>
             <div className={`${className} c`} style={{ marginRight: 8 }}></div>
+            {signal === 'I' && <> <div className={`${className} d`} style={{ marginRight: 8 }}></div> </>}
           </>
           :
           <>

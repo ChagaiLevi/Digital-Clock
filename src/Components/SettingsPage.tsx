@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 
 type SettingsPageProps = {
   isOpen: boolean;
+  isMeridiem: boolean;
   setIsMeridiem: React.Dispatch<React.SetStateAction<boolean>>;
+  valOfDate: string;
   setValOfDate: React.Dispatch<React.SetStateAction<string>>;
+  valOfDay: string;
   setValOfDay: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const SettingsPage = ({ isOpen, setIsMeridiem, setValOfDate, setValOfDay }: SettingsPageProps) => {
+const SettingsPage = ({ isOpen, isMeridiem, setIsMeridiem, valOfDate, setValOfDate, valOfDay, setValOfDay }: SettingsPageProps) => {
   const [timeFormat, setTimeFormat] = useState(localStorage.getItem('isMeridiem') === 'true' ? '12h' : '24h');
   const [dateFormat, setDateFormat] = useState(localStorage.getItem('valOfDate') || "shortcut_name");
   const [dayFormat, setDayFormat] = useState(localStorage.getItem('valOfDay') || "shortcut");
@@ -27,6 +30,10 @@ const SettingsPage = ({ isOpen, setIsMeridiem, setValOfDate, setValOfDay }: Sett
   }, [changedSelect]);
 
   const handleDeleteData = () => {
+    if (!isMeridiem && valOfDate === 'shortcut_name' && valOfDay === 'shortcut') {
+      return;
+    }
+
     localStorage.clear();
     setIsMeridiem(false);
     setValOfDate('shortcut_name');

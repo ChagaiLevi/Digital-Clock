@@ -130,7 +130,7 @@ function App() {
   return (
     <div className="app">
       {isSettingsOpen && (<button className="sidebar-backdrop" type="button" aria-label="Close settings" onClick={() => setIsSettingsOpen(false)} />)}
-      <SettingsPage isOpen={isSettingsOpen} setIsMeridiem={setIsMeridiem} setValOfDate={setValOfDate} setValOfDay={setValOfDay} />
+      <SettingsPage isOpen={isSettingsOpen} isMeridiem={isMeridiem} setIsMeridiem={setIsMeridiem} valOfDate={valOfDate} setValOfDate={setValOfDate} valOfDay={valOfDay} setValOfDay={setValOfDay} />
       <div id="wrapper" className={isSettingsOpen ? "shifted" : ""}>
         <DateC date={date} valOfDate={valOfDate} valOfDay={valOfDay} />
         <Clock numbersTimes={numbersTimes} isMeridiem={isMeridiem} />
